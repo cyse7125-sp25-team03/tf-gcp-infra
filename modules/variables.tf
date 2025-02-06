@@ -11,10 +11,18 @@ variable "region" {
   description = "region"
 }
 variable "gke_subnet_name" {
-    type=string
-    description = "Name of the private GKE subnet fetched from output of module VPC"
+  type        = string
+  description = "Name of the private GKE subnet fetched from output of module VPC"
 }
 variable "network_name" {
-    type=string
-    description = "Name of the VPC fetched from output of module VPC"
+  type        = string
+  description = "Name of the VPC fetched from output of module VPC"
+}
+variable "machine_type" {
+  type        = string
+  description = "Machine Type for the cluster"
+}
+variable "disk_type" {
+  type        = string
+  description = "Disk Type for the cluster"
 }

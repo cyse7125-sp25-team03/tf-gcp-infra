@@ -45,7 +45,7 @@ module "vpc" {
       next_hop_internet = "true"
     },
   ]
-  
+
 }
 
 resource "google_compute_firewall" "allow-ssh" {
@@ -59,6 +59,6 @@ resource "google_compute_firewall" "allow-ssh" {
     ports    = ["22"]
   }
 
-  target_tags = ["ssh-vm"] #NOTE: attach this tagto vm for ssh access
+  target_tags   = ["ssh-vm"] #NOTE: attach this tagto vm for ssh access
   source_ranges = ["0.0.0.0/0"]
 }

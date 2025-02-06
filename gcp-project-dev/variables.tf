@@ -10,3 +10,11 @@ variable "region" {
   type        = string
   description = "region"
 }
+variable "machine_type" {
+  type        = string
+  description = "Machine Type for the cluster"
+}
+variable "disk_type" {
+  type        = string
+  description = "Disk Type for the cluster"
+}
