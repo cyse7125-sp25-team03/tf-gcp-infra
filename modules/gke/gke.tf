@@ -25,8 +25,8 @@ resource "google_container_cluster" "gke_cluster" {
   subnetwork = var.gke_subnet_name
 
   ip_allocation_policy {
-    cluster_secondary_range_name  = "pod-ranges"
-    services_secondary_range_name = "service-ranges"
+    cluster_secondary_range_name  = var.pod_ranges
+    services_secondary_range_name = var.service_ranges
   }
   # required to enable workload identity
   workload_identity_config {

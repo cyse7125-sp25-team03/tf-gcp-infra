@@ -26,3 +26,11 @@ variable "disk_type" {
   type        = string
   description = "Disk Type for the cluster"
 }
+variable "pod_ranges" {
+  type        = string
+  description = "Pod Ranges IP Allocation"
+}
+variable "service_ranges" {
+  type        = string
+  description = "Pod Ranges IP Allocation"
+}
