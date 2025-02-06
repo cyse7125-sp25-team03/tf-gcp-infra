@@ -28,5 +28,5 @@ gcp-org/
 **`provider.tf`**  
    Centralizes the provider configurations for all Google Cloud projects.
 
-**`provider.tf`**  
+**`variables.tf`**  
     Defines all input variables used across the Terraform configuration.
