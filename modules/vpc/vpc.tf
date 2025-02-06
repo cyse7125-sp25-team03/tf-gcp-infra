@@ -10,28 +10,28 @@ module "vpc" {
     {
       subnet_name   = "public-subnet-${var.environment}"
       subnet_ip     = "10.1.0.0/24"
-      subnet_region = "us-east1"
+      subnet_region = var.region
     },
     {
       subnet_name   = "private-subnet-${var.environment}"
       subnet_ip     = "10.1.1.0/24"
-      subnet_region = "us-east1"
+      subnet_region = var.region
     },
     {
       subnet_name   = "gke-subnet-${var.environment}"
       subnet_ip     = "10.2.0.0/16"
-      subnet_region = "us-east1"
+      subnet_region = var.region
     },
 
   ]
   secondary_ranges = {
     "gke-subnet-${var.environment}" = [
       {
-        range_name    = "service-ranges"
+        range_name    = var.service_ranges
         ip_cidr_range = "192.168.1.0/24"
       },
       {
-        range_name    = "pod-ranges"
+        range_name    = var.pod_ranges
         ip_cidr_range = "192.168.64.0/22"
       }
     ]
