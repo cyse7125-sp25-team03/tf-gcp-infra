@@ -1,0 +1,9 @@
+variable "project_id" {}
+variable "environment" {}
+variable "region" {}
+variable "network_name" {}
+variable "public_subnet_name" {}
+variable "bastion_machine_type" {}
+variable "bastion_disk_size" {}
+variable "bastion_disk_type" {}
+variable "startup_script_path" {}
