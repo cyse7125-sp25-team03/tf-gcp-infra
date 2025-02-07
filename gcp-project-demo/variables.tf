@@ -1,5 +1,6 @@
 variable "environment" {
-  type = string
+  type    = string
+  default = "dev"
 }
 variable "project_id" {
   type        = string
@@ -24,4 +25,21 @@ variable "pod_ranges" {
 variable "service_ranges" {
   type        = string
   description = "Service Ranges IP Allocation"
+}
+variable "bastion_machine_type" {
+  type        = string
+  description = "The machine type for the bastion host"
+}
+variable "bastion_disk_size" {
+  type        = number
+  description = "Boot disk size in GB"
+}
+variable "bastion_disk_type" {
+  type        = string
+  description = "Boot disk type"
+}
+variable "startup_script_path" {
+  type        = string
+  description = "Path to the bastion host startup script"
+  default     = "../modules/bastion/scripts/startup_script.sh"
 }
