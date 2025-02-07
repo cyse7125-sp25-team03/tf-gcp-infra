@@ -13,11 +13,6 @@ module "vpc" {
       subnet_region = var.region
     },
     {
-      subnet_name   = "private-subnet-${var.environment}"
-      subnet_ip     = "10.1.1.0/24"
-      subnet_region = var.region
-    },
-    {
       subnet_name   = "gke-subnet-${var.environment}"
       subnet_ip     = "10.2.0.0/16"
       subnet_region = var.region
@@ -36,16 +31,6 @@ module "vpc" {
       }
     ]
   }
-  routes = [
-    {
-      name              = "egress-internet"
-      description       = "route through IGW to access internet"
-      destination_range = "0.0.0.0/0"
-      tags              = "igw" #NOTE: attach this tag for public subnet access
-      next_hop_internet = "true"
-    },
-  ]
-
 }
 
 resource "google_compute_firewall" "allow-ssh" {
