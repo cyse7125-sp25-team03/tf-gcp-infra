@@ -7,6 +7,7 @@ module "vpc" {
   service_ranges = var.service_ranges
 }
 module "gke" {
+  depends_on = [module.vpc] 
   source          = "../modules/gke"
   project_id      = var.project_id
   environment     = var.environment
@@ -20,6 +21,7 @@ module "gke" {
 }
 
 module "bastion" {
+  depends_on = [module.vpc] 
   source               = "../modules/bastion"
   project_id           = var.project_id
   environment          = var.environment
