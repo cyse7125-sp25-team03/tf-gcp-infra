@@ -1,10 +1,6 @@
 pipeline {
     agent any
     
-    tools {
-        terraform 'terraform-latest'
-    }
-    
     options {
         timeout(time: 1, unit: 'HOURS')
         disableConcurrentBuilds()
