@@ -46,7 +46,7 @@ variable "startup_script_path" {
 variable "gke_subnet_ip" {
   type        = string
   description = "GKE Subnet IP Allocation"
-  
+
 }
 variable "public_subnet_ip" {
   type        = string

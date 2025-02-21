@@ -50,5 +50,5 @@ variable "gke_subnet_ip" {
 variable "public_subnet_ip" {
   type        = string
   description = "Public Subnet IP Allocation"
-  
+
 }

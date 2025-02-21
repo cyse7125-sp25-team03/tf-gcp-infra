@@ -58,8 +58,8 @@ resource "google_compute_firewall" "deny-all-to-gke-subnet" {
   }
 
   destination_ranges = [var.gke_subnet_ip]
-  source_ranges = ["0.0.0.0/0"]
-  priority = 1001
+  source_ranges      = ["0.0.0.0/0"]
+  priority           = 1001
 }
 resource "google_compute_firewall" "allow-ssh-to-gke-subnet" {
   project     = var.project_id
@@ -71,7 +71,7 @@ resource "google_compute_firewall" "allow-ssh-to-gke-subnet" {
     protocol = "tcp"
   }
 
-  source_tags  = ["ssh-vm"] # Only from bastion with this tag
+  source_tags        = ["ssh-vm"] # Only from bastion with this tag
   destination_ranges = [var.gke_subnet_ip]
-  priority = 1000
+  priority           = 1000
 }
