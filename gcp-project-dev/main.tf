@@ -1,26 +1,26 @@
 module "vpc" {
-  source         = "../modules/vpc"
-  project_id     = var.project_id
-  environment    = var.environment
-  region         = var.region
-  pod_ranges     = var.pod_ranges
-  service_ranges = var.service_ranges
-  gke_subnet_ip  = var.gke_subnet_ip
+  source           = "../modules/vpc"
+  project_id       = var.project_id
+  environment      = var.environment
+  region           = var.region
+  pod_ranges       = var.pod_ranges
+  service_ranges   = var.service_ranges
+  gke_subnet_ip    = var.gke_subnet_ip
   public_subnet_ip = var.public_subnet_ip
 }
 module "gke" {
-  depends_on      = [module.vpc]
-  source          = "../modules/gke"
-  project_id      = var.project_id
-  environment     = var.environment
-  region          = var.region
-  gke_subnet_name = module.vpc.gke_subnet_name
-  network_name    = module.vpc.network_name
-  machine_type    = var.machine_type
-  disk_type       = var.disk_type
-  pod_ranges      = var.pod_ranges
-  service_ranges  = var.service_ranges
-  gke_subnet_ip = var.gke_subnet_ip
+  depends_on       = [module.vpc]
+  source           = "../modules/gke"
+  project_id       = var.project_id
+  environment      = var.environment
+  region           = var.region
+  gke_subnet_name  = module.vpc.gke_subnet_name
+  network_name     = module.vpc.network_name
+  machine_type     = var.machine_type
+  disk_type        = var.disk_type
+  pod_ranges       = var.pod_ranges
+  service_ranges   = var.service_ranges
+  gke_subnet_ip    = var.gke_subnet_ip
   public_subnet_ip = var.public_subnet_ip
 }
 
