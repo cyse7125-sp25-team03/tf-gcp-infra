@@ -43,3 +43,12 @@ variable "startup_script_path" {
   description = "Path to the bastion host startup script"
   default     = "../modules/bastion/scripts/startup_script.sh"
 }
+variable "gke_subnet_ip" {
+  type        = string
+  description = "GKE Subnet IP Allocation"
+  
+}
+variable "public_subnet_ip" {
+  type        = string
+  description = "Public Subnet IP Allocation"
+}

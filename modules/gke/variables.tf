@@ -7,3 +7,5 @@ variable "machine_type" {}
 variable "disk_type" {}
 variable "pod_ranges" {}
 variable "service_ranges" {}
+variable "gke_subnet_ip" {}
+variable "public_subnet_ip" {}
