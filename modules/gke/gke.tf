@@ -24,6 +24,20 @@ resource "google_container_cluster" "gke_cluster" {
   network    = var.network_name
   subnetwork = var.gke_subnet_name
 
+ private_cluster_config {
+    enable_private_endpoint = true
+    enable_private_nodes   = true 
+  }
+ master_authorized_networks_config {
+  cidr_blocks {
+    cidr_block   =  var.gke_subnet_ip # GKE subnet CIDR
+    display_name = "GKE Subnet"
+  }
+  cidr_blocks {
+    cidr_block   = var.public_subnet_ip  # Bastion subnet CIDR
+    display_name = "Bastion Subnet"
+  }
+}
   ip_allocation_policy {
     cluster_secondary_range_name  = var.pod_ranges
     services_secondary_range_name = var.service_ranges
@@ -52,7 +66,7 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
     preemptible  = true
     machine_type = var.machine_type #Defaults to e2-medium
     image_type   = "COS_CONTAINERD"
-    disk_size_gb = 10 #Defaults to 100
+    disk_size_gb = 50 #Defaults to 100
     disk_type    = var.disk_type
 
     # required to enable workload identity on node pool
@@ -67,5 +81,26 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
       "https://www.googleapis.com/auth/monitoring",
       "https://www.googleapis.com/auth/cloud-platform"
     ]
+  }
+}
+
+#----NAT----
+resource "google_compute_router" "nat-router" {
+  name    = "nat-router"
+  network = var.network_name
+  region  = var.region
+}
+
+resource "google_compute_router_nat" "nat" {
+  name   = "nat"
+  router = google_compute_router.nat-router.name
+  region = var.region
+
+  nat_ip_allocate_option = "AUTO_ONLY"
+  source_subnetwork_ip_ranges_to_nat = "LIST_OF_SUBNETWORKS"
+
+  subnetwork {
+    name = var.gke_subnet_name
+    source_ip_ranges_to_nat = ["ALL_IP_RANGES"]
   }
 }

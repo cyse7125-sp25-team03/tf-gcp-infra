@@ -5,6 +5,8 @@ module "vpc" {
   region         = var.region
   pod_ranges     = var.pod_ranges
   service_ranges = var.service_ranges
+  gke_subnet_ip  = var.gke_subnet_ip
+  public_subnet_ip = var.public_subnet_ip
 }
 module "gke" {
   depends_on      = [module.vpc]
@@ -18,6 +20,8 @@ module "gke" {
   disk_type       = var.disk_type
   pod_ranges      = var.pod_ranges
   service_ranges  = var.service_ranges
+  public_subnet_ip = var.public_subnet_ip
+  gke_subnet_ip = var.gke_subnet_ip
 }
 
 module "bastion" {
