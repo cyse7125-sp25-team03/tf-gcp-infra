@@ -1,5 +1,15 @@
-variable "project_id" {
-  description = "GCP project ID"
+variable "dns_project_id" {
+  description = "GCP DNS project ID"
+  type        = string
+}
+
+variable "dev_project_id" {
+  description = "GCP DEV project ID"
+  type        = string
+}
+
+variable "prod_project_id" {
+  description = "GCP DEMO project ID"
   type        = string
 }
 
@@ -24,7 +34,7 @@ variable "prod_zone_name" {
   type        = string
 }
 
-variable "domain_name" {
+variable "root_domain_name" {
   description = "Root domain name"
   type        = string
 }
