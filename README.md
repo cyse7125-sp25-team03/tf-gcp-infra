@@ -53,6 +53,7 @@ terraform destroy
 - Use separate `tfvars` files for different environments.
 - Use modules for reusable components to keep configurations DRY.
 
+
 ## Contributing
 1. Fork the repository.
 2. Create a new branch (`feature-branch`).
