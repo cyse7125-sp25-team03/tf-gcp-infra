@@ -52,3 +52,11 @@ variable "public_subnet_ip" {
   description = "Public Subnet IP Allocation"
 
 }
+variable "kubernetes_version" {
+  type        = string
+  description = "Kubernetes Version"
+}
+variable "node_version" {
+  type        = string
+  description = "Node Version"
+}
