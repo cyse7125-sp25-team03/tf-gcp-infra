@@ -18,3 +18,8 @@ resource "google_project_service" "iamcredentials_demo" {
   service            = "iamcredentials.googleapis.com"
   disable_on_destroy = false
 }
+resource "google_project_service" "kms_demo" {
+  project            = var.demo_project_id
+  service            = "cloudkms.googleapis.com"
+  disable_on_destroy = false
+}

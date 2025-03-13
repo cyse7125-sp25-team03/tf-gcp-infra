@@ -68,3 +68,7 @@ variable "api_server_ksa_name" {
   type        = string
   description = "API Server KSA Name"
 }
+variable "rotation_period" {
+  type        = string
+  description = "Rotation Period for the KMS key"
+}
