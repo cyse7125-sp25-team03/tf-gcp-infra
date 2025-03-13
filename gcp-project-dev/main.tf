@@ -9,7 +9,7 @@ module "vpc" {
   public_subnet_ip = var.public_subnet_ip
 }
 module "gke" {
-  depends_on           = [module.vpc]
+  depends_on           = [module.vpc, module.kms]
   source               = "../modules/gke"
   project_id           = var.project_id
   environment          = var.environment
@@ -24,6 +24,7 @@ module "gke" {
   public_subnet_ip     = var.public_subnet_ip
   kubernetes_version   = var.kubernetes_version
   node_version         = var.node_version
+  gke_crypto_key_id  = module.kms.gke_crypto_key_id
   api_server_namespace = var.api_server_namespace
   api_server_ksa_name  = var.api_server_ksa_name
 }
@@ -40,4 +41,10 @@ module "bastion" {
   bastion_disk_size    = var.bastion_disk_size
   bastion_disk_type    = var.bastion_disk_type
   startup_script_path  = var.startup_script_path
+}
+
+module "kms" {
+  source = "../modules/kms"
+  region = var.region
+  rotation_period = var.rotation_period
 }

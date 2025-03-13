@@ -13,3 +13,4 @@ variable "kubernetes_version" {}
 variable "node_version" {}
 variable "api_server_namespace" {}
 variable "api_server_ksa_name" {}
+variable "gke_crypto_key_id" {}
