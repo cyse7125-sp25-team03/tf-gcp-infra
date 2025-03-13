@@ -34,3 +34,14 @@ variable "service_ranges" {
   type        = string
   description = "Pod Ranges IP Allocation"
 }
+
+variable "kubernetes_version" {
+  type        = string
+  description = "Kubernetes Version"
+  default     = "1.30.9-gke.1201000"
+}
+variable "node_version" {
+  type        = string
+  description = "Node Version"
+  default     = "1.30.9-gke.1231000"
+}

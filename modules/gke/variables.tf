@@ -9,3 +9,5 @@ variable "pod_ranges" {}
 variable "service_ranges" {}
 variable "gke_subnet_ip" {}
 variable "public_subnet_ip" {}
+variable "kubernetes_version" {}
+variable "node_version" {}

@@ -51,6 +51,7 @@ resource "google_container_cluster" "gke_cluster" {
     evaluation_mode = "PROJECT_SINGLETON_POLICY_ENFORCE"
   }
   deletion_protection = false
+  min_master_version  = var.kubernetes_version
 
 }
 #----GKE Node Pool----
@@ -61,6 +62,7 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
   #multizone (first two available zones list)
   cluster    = google_container_cluster.gke_cluster.name
   node_count = 1 #nodes per zone
+  version    = var.node_version
 
   node_config {
     preemptible  = true
