@@ -51,3 +51,9 @@ module "kms" {
   rotation_period = var.rotation_period
   key_ring_name   = var.key_ring_name
 }
+
+module "bucket" {
+  source = "../modules/bucket"
+  region = var.region
+  environment          = var.environment
+}
