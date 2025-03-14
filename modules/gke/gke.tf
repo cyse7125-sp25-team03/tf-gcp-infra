@@ -12,6 +12,16 @@ resource "google_kms_crypto_key_iam_binding" "gke_kms_binding" {
     "serviceAccount:${var.compute_sa_email}"
   ]
 }
+resource "google_kms_crypto_key_iam_binding" "sops_kms_binding" {
+  crypto_key_id = var.sops_crypto_key_id
+  role          = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
+
+  members = [
+    "serviceAccount:${google_service_account.gke_sa.email}",
+    "serviceAccount:${var.compute_sa_email}",
+    "serviceAccount:${var.bastion_sa_email}"
+  ]
+}
 
 data "google_compute_zones" "available_zones" {
   region = var.region

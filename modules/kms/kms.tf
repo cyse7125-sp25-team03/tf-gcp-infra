@@ -13,6 +13,16 @@ resource "google_kms_crypto_key" "gke_crypto_key" {
     prevent_destroy = false
   }
 }
+resource "google_kms_crypto_key" "sops_crypto_key" {
+  name     = "sops-encryption-key"
+  key_ring = google_kms_key_ring.gke_key_ring.id
+
+  rotation_period = var.rotation_period
+
+  lifecycle {
+    prevent_destroy = false
+  }
+}
 
 
 
