@@ -1,6 +1,6 @@
 variable "region" {
-  
+
 }
 variable "environment" {
-  
+
 }
