@@ -1,5 +1,5 @@
 resource "google_storage_bucket" "trace-bucket" {
-  name          = "trace-bucket-${var.environment}"
+  name          = var.bucket_name
   location      = var.region
   force_destroy = true
 
