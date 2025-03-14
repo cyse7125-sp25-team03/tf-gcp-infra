@@ -53,7 +53,7 @@ module "kms" {
 }
 
 module "bucket" {
-  source = "../modules/bucket"
-  region = var.region
-  environment          = var.environment
+  source      = "../modules/bucket"
+  region      = var.region
+  environment = var.environment
 }

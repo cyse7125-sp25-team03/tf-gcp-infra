@@ -51,7 +51,7 @@ module "kms" {
   key_ring_name   = var.key_ring_name
 }
 module "bucket" {
-  source = "../modules/bucket"
-  region = var.region
-  environment          = var.environment
+  source      = "../modules/bucket"
+  region      = var.region
+  environment = var.environment
 }
