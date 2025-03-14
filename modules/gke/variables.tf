@@ -15,5 +15,5 @@ variable "api_server_namespace" {}
 variable "api_server_ksa_name" {}
 variable "gke_crypto_key_id" {}
 variable "compute_sa_email" {
-  
+
 }

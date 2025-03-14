@@ -64,10 +64,10 @@ variable "rotation_period" {
 variable "compute_sa_email" {
   type        = string
   description = "Compute Service Account Email"
-  
+
 }
 variable "key_ring_name" {
   type        = string
   description = "Key Ring Name"
-  
+
 }

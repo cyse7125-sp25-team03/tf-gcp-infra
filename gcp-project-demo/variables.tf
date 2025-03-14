@@ -79,5 +79,5 @@ variable "compute_sa_email" {
 variable "key_ring_name" {
   type        = string
   description = "Key Ring Name"
-  
+
 }
