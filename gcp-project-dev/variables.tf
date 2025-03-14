@@ -84,5 +84,5 @@ variable "key_ring_name" {
 variable "bucket_name" {
   type        = string
   description = "Bucket Name"
-  
+
 }
