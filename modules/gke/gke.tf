@@ -20,7 +20,7 @@ data "google_compute_zones" "available_zones" {
 resource "google_container_cluster" "gke_cluster" {
   name           = "gke-cluster-${var.environment}"
   location       = var.region
-  node_locations = slice(data.google_compute_zones.available_zones.names, 0, 2)
+  node_locations = slice(data.google_compute_zones.available_zones.names, 0, 1)
   # logging_service          = "none"
   # monitoring_service       = "none"
 
@@ -67,7 +67,7 @@ resource "google_container_cluster" "gke_cluster" {
 resource "google_container_node_pool" "primary_preemptible_nodes" {
   name           = "node-pool-${var.environment}"
   location       = var.region #Regional
-  node_locations = slice(data.google_compute_zones.available_zones.names, 0, 2)
+  node_locations = slice(data.google_compute_zones.available_zones.names, 0, 3)
   #multizone (first two available zones list)
   cluster    = google_container_cluster.gke_cluster.name
   node_count = 1 #nodes per zone
