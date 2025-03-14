@@ -1,3 +1,16 @@
+void setBuildStatus(String message, String state) {
+    def repoUrl = scm.getUserRemoteConfigs()[0].getUrl()
+    
+    echo "DEBUG: Repository URL detected: ${repoUrl}"
+  step([
+      $class: "GitHubCommitStatusSetter",
+      reposSource: [$class: "ManuallyEnteredRepositorySource", url: repoUrl],
+      contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/terraform-checks"],
+      errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
+      statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
+  ]);
+}
+
 pipeline {
     agent any
     
@@ -7,6 +20,13 @@ pipeline {
     }
     
     stages {
+        stage('Initialize Build') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'github-pat', usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_TOKEN')]) {
+                    setBuildStatus("Terraform check is starting...", "PENDING");
+                }
+            }
+        }
         stage('Checkout Code') {
             steps {
                 checkout scm
@@ -56,30 +76,20 @@ pipeline {
         }
     }
     
-    post {
+     post {
         success {
-            step([
-                $class: 'GitHubCommitStatusSetter',
-                contextSource: [$class: 'ManuallyEnteredCommitContextSource', context: 'terraform-checks'],
-                statusResultSource: [$class: 'ConditionalStatusResultSource', results: [
-                    [$class: 'AnyBuildResult', message: 'Terraform format and validation passed', state: 'SUCCESS']
-                ]]
-            ])
+                withCredentials([usernamePassword(credentialsId: 'github-pat', usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_TOKEN')]) {
+                    setBuildStatus("Terraform checks passed", "SUCCESS");
+                }
         }
         failure {
-            step([
-                $class: 'GitHubCommitStatusSetter',
-                contextSource: [$class: 'ManuallyEnteredCommitContextSource', context: 'terraform-checks'],
-                statusResultSource: [$class: 'ConditionalStatusResultSource', results: [
-                    [$class: 'AnyBuildResult', message: 'Terraform format or validation failed', state: 'FAILURE']
-                ]]
-            ])
-            script {
-                currentBuild.result = 'FAILURE'
+            withCredentials([usernamePassword(credentialsId: 'github-pat', usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_TOKEN')]) {
+                setBuildStatus("Terraform checks failed", "FAILURE");
             }
         }
         always {
             cleanWs()
         }
+    }
     }
 }
