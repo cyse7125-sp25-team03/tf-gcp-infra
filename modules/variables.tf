@@ -57,6 +57,10 @@ variable "gke_crypto_key_id" {
   type        = string
   description = "GKE Crypto Key ID"
 }
+variable "sops_crypto_key_id" {
+  type        = string
+  description = "SOPS Crypto Key ID"
+}
 variable "rotation_period" {
   type        = string
   description = "Rotation Period"
@@ -65,6 +69,10 @@ variable "compute_sa_email" {
   type        = string
   description = "Compute Service Account Email"
 
+}
+variable "bastion_sa_email" {
+  type        = string
+  description = "Bastion Service Account Email"
 }
 variable "key_ring_name" {
   type        = string
