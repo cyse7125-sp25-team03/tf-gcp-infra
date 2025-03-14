@@ -1,10 +1,28 @@
+void setBuildStatus(String message, String state) {
+    def repoUrl = scm.getUserRemoteConfigs()[0].getUrl()
+    
+    echo "DEBUG: Repository URL detected: ${repoUrl}"
+  step([
+      $class: "GitHubCommitStatusSetter",
+      reposSource: [$class: "ManuallyEnteredRepositorySource", url: repoUrl],
+      contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/commitlint"],
+      errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
+      statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
+  ]);
+}
+
+
 pipeline {
     agent any
-    
+    options {
+        disableConcurrentBuilds()
+    }
     stages {
-        stage('Checkout') {
+        stage('Initialize') {
             steps {
-                checkout scm
+                withCredentials([usernamePassword(credentialsId: 'github-pat', usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_TOKEN')]) {
+                    setBuildStatus("Checking commit messages...", "PENDING")
+                }
             }
         }
         
@@ -43,11 +61,18 @@ pipeline {
     }
     
     post {
-        success {
-            echo "Validation passed - all commits follow the conventional format!"
-        }
+        success {            
+                withCredentials([usernamePassword(credentialsId: 'github-pat', usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_TOKEN')])
+                {
+                    setBuildStatus("Commit messages are valid!", "SUCCESS")
+                }
+            }
+            
         failure {
-            echo "Validation failed - please fix the commit messages according to conventional commits standards."
+            withCredentials([usernamePassword(credentialsId: 'github-pat', usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_TOKEN')]) {
+            setBuildStatus("Invalid commit messages! Please fix the commit messages according to conventional commits standards.", "FAILURE")    
+            }    
         }
+        
     }
 }
