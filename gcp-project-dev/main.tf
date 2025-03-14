@@ -25,6 +25,7 @@ module "gke" {
   kubernetes_version   = var.kubernetes_version
   node_version         = var.node_version
   gke_crypto_key_id  = module.kms.gke_crypto_key_id
+  compute_sa_email   = var.compute_sa_email
   api_server_namespace = var.api_server_namespace
   api_server_ksa_name  = var.api_server_ksa_name
 }
@@ -47,4 +48,5 @@ module "kms" {
   source = "../modules/kms"
   region = var.region
   rotation_period = var.rotation_period
+  key_ring_name = var.key_ring_name
 }

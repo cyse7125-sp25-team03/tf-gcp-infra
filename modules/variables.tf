@@ -53,3 +53,21 @@ variable "api_server_ksa_name" {
   type        = string
   description = "API Server KSA Name"
 }
+variable "gke_crypto_key_id" {
+  type        = string
+  description = "GKE Crypto Key ID"
+}
+variable "rotation_period" {
+  type        = string
+  description = "Rotation Period"
+}
+variable "compute_sa_email" {
+  type        = string
+  description = "Compute Service Account Email"
+  
+}
+variable "key_ring_name" {
+  type        = string
+  description = "Key Ring Name"
+  
+}
