@@ -86,6 +86,35 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
   }
 }
 
+#----Google Service Account----
+resource "google_service_account" "workload_identity_gsa" {
+  account_id   = "api-server-gsa"
+  display_name = "GSA for API Server Workload Identity"
+}
+
+#----Grant IAM Role to GSA----
+resource "google_project_iam_member" "cloudsql_client" {
+  project = var.project_id
+  role    = "roles/cloudsql.client"
+  member  = "serviceAccount:${google_service_account.workload_identity_gsa.email}"
+}
+
+resource "google_project_iam_member" "storage_access" {
+  project = var.project_id
+  role    = "roles/storage.admin"
+  member  = "serviceAccount:${google_service_account.workload_identity_gsa.email}"
+}
+
+#----Bind KSA to GSA----
+resource "google_service_account_iam_binding" "workload_identity_binding" {
+  service_account_id = google_service_account.workload_identity_gsa.name
+  role               = "roles/iam.workloadIdentityUser"
+
+  members = [
+    "serviceAccount:${var.project_id}.svc.id.goog[${var.api_server_namespace}/${var.api_server_ksa_name}]"
+  ]
+}
+
 #----NAT----
 resource "google_compute_router" "nat-router" {
   name    = "nat-router"

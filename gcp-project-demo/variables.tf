@@ -60,3 +60,11 @@ variable "node_version" {
   type        = string
   description = "Node Version"
 }
+variable "api_server_namespace" {
+  type        = string
+  description = "API Server Namespace"
+}
+variable "api_server_ksa_name" {
+  type        = string
+  description = "API Server KSA Name"
+}

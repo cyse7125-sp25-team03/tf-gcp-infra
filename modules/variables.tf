@@ -45,3 +45,11 @@ variable "node_version" {
   description = "Node Version"
   default     = "1.30.9-gke.1231000"
 }
+variable "api_server_namespace" {
+  type        = string
+  description = "API Server Namespace"
+}
+variable "api_server_ksa_name" {
+  type        = string
+  description = "API Server KSA Name"
+}
