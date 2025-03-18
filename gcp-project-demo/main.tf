@@ -57,5 +57,6 @@ module "kms" {
 module "bucket" {
   source      = "../modules/bucket"
   region      = var.region
-  bucket_name = var.bucket_name
+  trace_bucket_name = var.trace_bucket_name
+  backups_bucket_name = var.backups_bucket_name
 }
