@@ -112,6 +112,10 @@ resource "google_service_account" "workload_identity_gsa" {
   account_id   = "api-server-gsa"
   display_name = "GSA for API Server Workload Identity"
 }
+resource "google_service_account" "db_operator_gsa" {
+  account_id   = "db-operator-gsa"
+  display_name = "GSA for DB Operator Workload Identity"
+}
 
 #----Grant IAM Role to GSA----
 resource "google_project_iam_member" "cloudsql_client" {
@@ -125,6 +129,11 @@ resource "google_project_iam_member" "storage_access" {
   role    = "roles/storage.admin"
   member  = "serviceAccount:${google_service_account.workload_identity_gsa.email}"
 }
+resource "google_project_iam_member" "storage_access_db_operator" {
+  project = var.project_id
+  role    = "roles/storage.admin"
+  member  = "serviceAccount:${google_service_account.db_operator_gsa.email}"
+}
 
 #----Bind KSA to GSA----
 resource "google_service_account_iam_binding" "api_server_workload_identity_binding" {
@@ -136,7 +145,7 @@ resource "google_service_account_iam_binding" "api_server_workload_identity_bind
   ]
 }
 resource "google_service_account_iam_binding" "db_operator_workload_identity_binding" {
-  service_account_id = google_service_account.workload_identity_gsa.name
+  service_account_id = google_service_account.db_operator_gsa.name
   role               = "roles/iam.workloadIdentityUser"
 
   members = [
