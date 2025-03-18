@@ -68,6 +68,14 @@ variable "api_server_ksa_name" {
   type        = string
   description = "API Server KSA Name"
 }
+variable "db_operator_namespace" {
+  type        = string
+  description = "DB Operator Namespace"
+} 
+variable "db_operator_ksa_name" {
+  type        = string
+  description = "DB Operator KSA Name"
+}
 variable "rotation_period" {
   type        = string
   description = "Rotation period for the KMS key"
