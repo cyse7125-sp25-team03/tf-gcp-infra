@@ -87,5 +87,5 @@ variable "trace_bucket_name" {
 variable "backups_bucket_name" {
   type        = string
   description = "SQL Backups Bucket Name"
-  
+
 }
