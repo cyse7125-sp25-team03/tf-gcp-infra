@@ -127,12 +127,20 @@ resource "google_project_iam_member" "storage_access" {
 }
 
 #----Bind KSA to GSA----
-resource "google_service_account_iam_binding" "workload_identity_binding" {
+resource "google_service_account_iam_binding" "api_server_workload_identity_binding" {
   service_account_id = google_service_account.workload_identity_gsa.name
   role               = "roles/iam.workloadIdentityUser"
 
   members = [
     "serviceAccount:${var.project_id}.svc.id.goog[${var.api_server_namespace}/${var.api_server_ksa_name}]"
+  ]
+}
+resource "google_service_account_iam_binding" "db_operator_workload_identity_binding" {
+  service_account_id = google_service_account.workload_identity_gsa.name
+  role               = "roles/iam.workloadIdentityUser"
+
+  members = [
+    "serviceAccount:${var.project_id}.svc.id.goog[${var.db_operator_namespace}/${var.db_operator_ksa_name}]"
   ]
 }
 

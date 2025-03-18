@@ -13,6 +13,8 @@ variable "kubernetes_version" {}
 variable "node_version" {}
 variable "api_server_namespace" {}
 variable "api_server_ksa_name" {}
+variable "db_operator_namespace" {}
+variable "db_operator_ksa_name" {}
 variable "gke_crypto_key_id" {}
 variable "sops_crypto_key_id" {}
 variable "compute_sa_email" {}

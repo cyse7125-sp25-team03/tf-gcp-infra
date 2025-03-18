@@ -30,6 +30,8 @@ module "gke" {
   bastion_sa_email     = module.bastion.bastion_sa_email
   api_server_namespace = var.api_server_namespace
   api_server_ksa_name  = var.api_server_ksa_name
+  db_operator_namespace = var.db_operator_namespace
+  db_operator_ksa_name  = var.db_operator_ksa_name
 }
 
 module "bastion" {

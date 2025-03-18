@@ -34,7 +34,7 @@ variable "service_ranges" {
   type        = string
   description = "Pod Ranges IP Allocation"
 }
-
+# K8s versions
 variable "kubernetes_version" {
   type        = string
   description = "Kubernetes Version"
@@ -45,6 +45,7 @@ variable "node_version" {
   description = "Node Version"
   default     = "1.30.9-gke.1231000"
 }
+#Workload Identity Binding
 variable "api_server_namespace" {
   type        = string
   description = "API Server Namespace"
@@ -53,6 +54,16 @@ variable "api_server_ksa_name" {
   type        = string
   description = "API Server KSA Name"
 }
+variable "db_operator_namespace" {
+  type        = string
+  description = "DB Operator Namespace"
+  
+}
+variable "db_operator_ksa_name" {
+  type        = string
+  description = "DB Operator KSA Name"
+}
+#CMEK
 variable "gke_crypto_key_id" {
   type        = string
   description = "GKE Crypto Key ID"
@@ -79,6 +90,7 @@ variable "key_ring_name" {
   description = "Key Ring Name"
 
 }
+#Bucket
 variable "trace_bucket_name" {
   type        = string
   description = "Trace Bucket Name"
