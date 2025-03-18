@@ -57,7 +57,7 @@ variable "api_server_ksa_name" {
 variable "db_operator_namespace" {
   type        = string
   description = "DB Operator Namespace"
-  
+
 }
 variable "db_operator_ksa_name" {
   type        = string
