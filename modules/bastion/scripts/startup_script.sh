@@ -21,3 +21,13 @@ source /etc/profile.d/gke_auth.sh
 
 # Ensure gcloud components are up-to-date
 gcloud components update -q
+
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+
+helm plugin install https://github.com/jkroepke/helm-secrets
+
+curl -LO https://github.com/getsops/sops/releases/download/v3.9.4/sops-v3.9.4.linux.amd64
+sudo mv sops-v3.9.4.linux.amd64 /usr/local/bin/sops
+sudo chmod +x /usr/local/bin/sops

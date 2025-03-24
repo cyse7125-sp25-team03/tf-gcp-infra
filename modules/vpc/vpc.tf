@@ -75,3 +75,19 @@ resource "google_compute_firewall" "allow-ssh-to-gke-subnet" {
   destination_ranges = [var.gke_subnet_ip]
   priority           = 1000
 }
+
+resource "google_compute_firewall" "allow-gke-api" {
+  project   = var.project_id
+  name      = "allow-gke-api-from-local-ip"
+  network   = module.vpc.network_name
+  direction = "INGRESS"
+  priority  = 1000
+
+  allow {
+    protocol = "tcp"
+    ports    = ["443"]
+  }
+
+  source_ranges = [var.local_ip]
+  target_tags   = ["gke-master"]
+}

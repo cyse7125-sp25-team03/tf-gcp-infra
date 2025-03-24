@@ -9,6 +9,7 @@ variable "pod_ranges" {}
 variable "service_ranges" {}
 variable "gke_subnet_ip" {}
 variable "public_subnet_ip" {}
+variable "local_ip" {}
 variable "kubernetes_version" {}
 variable "node_version" {}
 variable "api_server_namespace" {}
@@ -19,3 +20,4 @@ variable "gke_crypto_key_id" {}
 variable "sops_crypto_key_id" {}
 variable "compute_sa_email" {}
 variable "bastion_sa_email" {}
+variable "cluster_name" {}

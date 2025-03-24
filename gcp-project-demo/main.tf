@@ -7,6 +7,7 @@ module "vpc" {
   service_ranges   = var.service_ranges
   gke_subnet_ip    = var.gke_subnet_ip
   public_subnet_ip = var.public_subnet_ip
+  local_ip         = var.local_ip
 }
 module "gke" {
   depends_on            = [module.vpc, module.kms]
@@ -22,6 +23,7 @@ module "gke" {
   service_ranges        = var.service_ranges
   gke_subnet_ip         = var.gke_subnet_ip
   public_subnet_ip      = var.public_subnet_ip
+  local_ip              = var.local_ip
   kubernetes_version    = var.kubernetes_version
   node_version          = var.node_version
   gke_crypto_key_id     = module.kms.gke_crypto_key_id
@@ -32,8 +34,8 @@ module "gke" {
   api_server_ksa_name   = var.api_server_ksa_name
   db_operator_namespace = var.db_operator_namespace
   db_operator_ksa_name  = var.db_operator_ksa_name
+  cluster_name          = module.gke.cluster_name
 }
-
 
 module "bastion" {
   depends_on           = [module.vpc]
@@ -61,4 +63,14 @@ module "bucket" {
   region              = var.region
   trace_bucket_name   = var.trace_bucket_name
   backups_bucket_name = var.backups_bucket_name
+}
+
+module "helm" {
+  source = "../modules/helm"
+
+  project_id   = var.project_id
+  region       = var.region
+  cluster_name = module.gke.cluster_name
+
+  depends_on = [module.gke, module.bastion]
 }
