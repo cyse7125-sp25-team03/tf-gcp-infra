@@ -77,11 +77,11 @@ resource "google_compute_firewall" "allow-ssh-to-gke-subnet" {
 }
 
 resource "google_compute_firewall" "allow-gke-api" {
-  project     = var.project_id
-  name        = "allow-gke-api-from-local-ip"
-  network     = module.vpc.network_name
-  direction   = "INGRESS"
-  priority    = 1000
+  project   = var.project_id
+  name      = "allow-gke-api-from-local-ip"
+  network   = module.vpc.network_name
+  direction = "INGRESS"
+  priority  = 1000
 
   allow {
     protocol = "tcp"
