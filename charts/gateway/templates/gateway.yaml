@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: monitoring-gateway
+  namespace: istio-system
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "kiali.csyeteam03.xyz"
+    - "prometheus.csyeteam03.xyz"
+    - "grafana.csyeteam03.xyz"
+    - "jaeger.csyeteam03.xyz"
+    - "loki.csyeteam03.xyz"

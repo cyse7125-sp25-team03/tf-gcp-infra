@@ -1,0 +1,84 @@
+# Custom Istio profile
+global:
+  # Enable automatic sidecar injection
+  proxy:
+    autoInject: enabled
+  
+  # Default configuration for services
+  trafficControl:
+    inbound:
+      # Enable mtls for all services
+      interceptionMode: REDIRECT
+    outbound:
+      # Enable mtls for all services
+      interceptionMode: REDIRECT
+  
+  # Configure mtls mode
+  mtls:
+    enabled: true
+    auto: true
+  
+  # Configure monitoring
+  monitoring:
+    enabled: true
+  
+  # Configure logging
+  logging:
+    level: "default:info"
+
+pilot:
+  # Enable Pilot trace sampling
+  traceSampling: 1.0
+  
+  # Resources for istiod
+  resources:
+    requests:
+      cpu: 500m
+      memory: 2Gi
+    limits:
+      cpu: 1000m
+      memory: 4Gi
+  
+  # Enable health checks
+  keepaliveMaxServerConnectionAge: 30m
+  
+  # Configure auto-scaling
+  autoscaleEnabled: true
+  autoscaleMin: 1
+  autoscaleMax: 3
+
+# Configure Gateway defaults
+gateways:
+  enabled: false
+
+# Configure tracing
+tracing:
+  enabled: true
+  provider: zipkin
+  zipkin:
+    address: zipkin.istio-system:9411
+
+# Configure security
+security:
+  enabled: true
+
+# Configure telemetry
+telemetry:
+  enabled: true
+  v2:
+    enabled: true
+    prometheus:
+      enabled: true
+    stackdriver:
+      enabled: false
+
+# Configure mesh config
+meshConfig:
+  enableTracing: true
+  defaultConfig:
+    tracing:
+      sampling: 100
+  accessLogFile: "/dev/stdout"
+  enableAutoMtls: true
+  outboundTrafficPolicy:
+    mode: ALLOW_ANY

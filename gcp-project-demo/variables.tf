@@ -50,7 +50,10 @@ variable "gke_subnet_ip" {
 variable "public_subnet_ip" {
   type        = string
   description = "Public Subnet IP Allocation"
-
+}
+variable "local_ip" {
+  type        = string
+  description = "Developer IP Allocation"
 }
 variable "kubernetes_version" {
   type        = string

@@ -44,7 +44,7 @@ resource "google_container_cluster" "gke_cluster" {
   subnetwork = var.gke_subnet_name
 
   private_cluster_config {
-    enable_private_endpoint = true
+    enable_private_endpoint = false
     enable_private_nodes    = true
   }
   master_authorized_networks_config {
@@ -55,6 +55,10 @@ resource "google_container_cluster" "gke_cluster" {
     cidr_blocks {
       cidr_block   = var.public_subnet_ip # Bastion subnet CIDR
       display_name = "Bastion Subnet"
+    }
+    cidr_blocks {
+      cidr_block   = var.local_ip # Local IP CIDR
+      display_name = "Developer IP"
     }
   }
   ip_allocation_policy {
