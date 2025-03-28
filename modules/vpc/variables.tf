@@ -6,3 +6,6 @@ variable "service_ranges" {}
 variable "gke_subnet_ip" {}
 variable "public_subnet_ip" {}
 variable "local_ip" {}
+variable "local_ip_s" {
+
+}

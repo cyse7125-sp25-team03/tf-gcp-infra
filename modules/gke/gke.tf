@@ -58,7 +58,11 @@ resource "google_container_cluster" "gke_cluster" {
     }
     cidr_blocks {
       cidr_block   = var.local_ip # Local IP CIDR
-      display_name = "Developer IP"
+      display_name = "Developer 1 IP"
+    }
+    cidr_blocks {
+      cidr_block   = var.local_ip_s # Local IP CIDR
+      display_name = "Developer 2 IP"
     }
   }
   ip_allocation_policy {

@@ -88,6 +88,6 @@ resource "google_compute_firewall" "allow-gke-api" {
     ports    = ["443"]
   }
 
-  source_ranges = [var.local_ip]
+  source_ranges = [var.local_ip, var.local_ip_s]
   target_tags   = ["gke-master"]
 }
