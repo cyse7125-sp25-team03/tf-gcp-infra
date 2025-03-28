@@ -8,6 +8,7 @@ module "vpc" {
   gke_subnet_ip    = var.gke_subnet_ip
   public_subnet_ip = var.public_subnet_ip
   local_ip         = var.local_ip
+  local_ip_s       = var.local_ip_s
 }
 module "gke" {
   depends_on            = [module.vpc, module.kms]
@@ -24,6 +25,7 @@ module "gke" {
   gke_subnet_ip         = var.gke_subnet_ip
   public_subnet_ip      = var.public_subnet_ip
   local_ip              = var.local_ip
+  local_ip_s            = var.local_ip_s
   kubernetes_version    = var.kubernetes_version
   node_version          = var.node_version
   gke_crypto_key_id     = module.kms.gke_crypto_key_id
