@@ -48,3 +48,13 @@ variable "prod_subdomain_name" {
   description = "Production subdomain name"
   type        = string
 }
+#dev_api_server_subdomain_name
+variable "dev_api_server_subdomain_name" {
+  description = "Development API server subdomain name"
+  type        = string
+}
+#prd_api_server_subdomain_name
+variable "prod_api_server_subdomain_name" {
+  description = "Production API server subdomain name"
+  type        = string
+}

@@ -101,3 +101,12 @@ variable "backups_bucket_name" {
   description = "SQL Backups Bucket Name"
 
 }
+variable "local_ip" {
+  type        = string
+  description = "Developer 1 IP Allocation"
+
+}
+variable "local_ip_s" {
+  type        = string
+  description = "Developer 2 IP Allocation list"
+}

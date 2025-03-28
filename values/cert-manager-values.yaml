@@ -1,0 +1,7 @@
+global:
+  leaderElection:
+    namespace: "cert-manager"
+
+serviceAccount:
+  annotations:
+    iam.gke.io/gcp-service-account: cert-manager@csye7125-demo-project.iam.gserviceaccount.com

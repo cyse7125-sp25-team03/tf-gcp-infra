@@ -52,8 +52,8 @@ variable "public_subnet_ip" {
   description = "Public Subnet IP Allocation"
 }
 variable "local_ip" {
-  type        = string
-  description = "Developer IP Allocation"
+  type        = list(string)
+  description = "Developer IP Allocation list"
 }
 variable "kubernetes_version" {
   type        = string
