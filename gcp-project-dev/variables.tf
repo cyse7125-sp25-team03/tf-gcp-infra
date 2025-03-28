@@ -58,7 +58,7 @@ variable "local_ip" {
 variable "local_ip_s" {
   type        = string
   description = "Developer 2 IP Allocation"
-  
+
 }
 variable "kubernetes_version" {
   type        = string
