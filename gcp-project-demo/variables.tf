@@ -106,3 +106,11 @@ variable "backups_bucket_name" {
   description = "Backups Bucket Name"
 
 }
+variable "postgres_username" {
+  type        = string
+  description = "Postgres Username"
+}
+variable "postgres_password" {
+  type        = string
+  description = "Postgres Password"
+}

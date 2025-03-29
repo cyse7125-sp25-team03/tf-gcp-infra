@@ -75,6 +75,20 @@ resource "helm_release" "istio_gateway" {
 }
 
 # Create namespaces
+resource "kubernetes_namespace" "external_secrets" {
+  metadata {
+    name = "external-secrets"
+    labels = {
+      istio-injection = "enabled"
+    }
+  }
+
+  depends_on = [null_resource.get_credentials]
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
+}
+
 resource "kubernetes_namespace" "api_server" {
   metadata {
     name = "api-server"
@@ -126,6 +140,21 @@ resource "kubernetes_namespace" "backup_job_namespace" {
   }
 
   depends_on = [null_resource.get_credentials]
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
+}
+
+resource "helm_release" "external_secrets" {
+  name      = "external-secrets"
+  chart     = "${path.module}/../../charts/external-secrets"
+  namespace = "external-secrets"
+
+  depends_on = [kubernetes_namespace.external_secrets]
+
+  # Force helm to wait until all resources are deployed successfully
+  wait    = true
+  timeout = 300
   # lifecycle {
   #   prevent_destroy = true
   # }

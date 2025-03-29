@@ -58,7 +58,6 @@ variable "local_ip" {
 variable "local_ip_s" {
   type        = string
   description = "Developer 2 IP Allocation"
-
 }
 variable "kubernetes_version" {
   type        = string
@@ -106,4 +105,12 @@ variable "backups_bucket_name" {
   type        = string
   description = "Bucket Name"
 
+}
+variable "postgres_username" {
+  type        = string
+  description = "Postgres Username"
+}
+variable "postgres_password" {
+  type        = string
+  description = "Postgres Password"
 }
