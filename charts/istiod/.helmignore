@@ -24,4 +24,5 @@ img/
 # Changelog
 CHANGELOG.md
 templates/grafana.yaml
+templates/loki.yaml
 templates/jaeger.yaml

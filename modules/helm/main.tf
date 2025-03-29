@@ -8,6 +8,8 @@ resource "null_resource" "apply_cert_manager_crds" {
   provisioner "local-exec" {
     command = "kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.9.1/cert-manager.crds.yaml"
   }
+
+  depends_on = [null_resource.get_credentials]
 }
 
 
