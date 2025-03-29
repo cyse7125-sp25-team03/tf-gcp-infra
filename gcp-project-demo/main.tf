@@ -67,6 +67,17 @@ module "bucket" {
   backups_bucket_name = var.backups_bucket_name
 }
 
+module "secrets" {
+  source = "../modules/secrets"
+
+  project_id        = var.project_id
+  region            = var.region
+  postgres_username = var.postgres_username
+  postgres_password = var.postgres_password
+
+  depends_on = [module.gke, module.bastion]
+}
+
 module "helm" {
   source = "../modules/helm"
 
@@ -75,5 +86,4 @@ module "helm" {
   cluster_name = module.gke.cluster_name
 
   depends_on = [module.gke, module.bastion]
-
 }

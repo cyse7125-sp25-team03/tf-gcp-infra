@@ -137,6 +137,13 @@ resource "google_project_iam_member" "storage_access" {
   role    = "roles/storage.admin"
   member  = "serviceAccount:${google_service_account.workload_identity_gsa.email}"
 }
+
+resource "google_project_iam_member" "secrets_access" {
+  project = var.project_id
+  role    = "roles/secretmanager.secretAccessor"
+  member  = "serviceAccount:${google_service_account.workload_identity_gsa.email}"
+}
+
 resource "google_project_iam_member" "storage_access_db_operator" {
   project = var.project_id
   role    = "roles/storage.admin"

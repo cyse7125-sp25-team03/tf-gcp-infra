@@ -24,3 +24,8 @@ resource "google_project_service" "kms_dev" {
   service            = "cloudkms.googleapis.com"
   disable_on_destroy = false
 }
+resource "google_project_service" "secretmanager_dev" {
+  project            = var.dev_project_id
+  service            = "secretmanager.googleapis.com"
+  disable_on_destroy = false
+}
