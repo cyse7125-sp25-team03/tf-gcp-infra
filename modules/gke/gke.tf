@@ -150,6 +150,12 @@ resource "google_project_iam_member" "storage_access_db_operator" {
   member  = "serviceAccount:${google_service_account.db_operator_gsa.email}"
 }
 
+resource "google_project_iam_member" "secrets_access_db_operator" {
+  project = var.project_id
+  role    = "roles/secretmanager.secretAccessor"
+  member  = "serviceAccount:${google_service_account.db_operator_gsa.email}"
+}
+
 #----Bind KSA to GSA----
 resource "google_service_account_iam_binding" "api_server_workload_identity_binding" {
   service_account_id = google_service_account.workload_identity_gsa.name
