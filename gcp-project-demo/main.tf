@@ -81,9 +81,12 @@ module "secrets" {
 module "helm" {
   source = "../modules/helm"
 
-  project_id   = var.project_id
-  region       = var.region
-  cluster_name = module.gke.cluster_name
+  project_id         = var.project_id
+  region             = var.region
+  cluster_name       = module.gke.cluster_name
+  dockerhub_username = var.dockerhub_username
+  dockerhub_password = var.dockerhub_password
+  dockerhub_email    = var.dockerhub_email
 
   depends_on = [module.gke, module.bastion]
 }
