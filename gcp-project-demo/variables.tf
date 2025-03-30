@@ -114,3 +114,18 @@ variable "postgres_password" {
   type        = string
   description = "Postgres Password"
 }
+variable "dockerhub_username" {
+  description = "DockerHub username"
+  type        = string
+}
+
+variable "dockerhub_password" {
+  description = "DockerHub password"
+  type        = string
+  sensitive   = true
+}
+
+variable "dockerhub_email" {
+  description = "DockerHub email"
+  type        = string
+}

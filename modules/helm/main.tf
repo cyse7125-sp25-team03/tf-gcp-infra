@@ -4,6 +4,7 @@ resource "null_resource" "get_credentials" {
     command = "gcloud container clusters get-credentials ${var.cluster_name} --region=${var.region} --project=${var.project_id}"
   }
 }
+
 resource "null_resource" "apply_cert_manager_crds" {
   provisioner "local-exec" {
     command = "kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.9.1/cert-manager.crds.yaml"
@@ -11,7 +12,6 @@ resource "null_resource" "apply_cert_manager_crds" {
 
   depends_on = [null_resource.get_credentials]
 }
-
 
 resource "kubernetes_namespace" "istio_system" {
   metadata {
@@ -261,4 +261,50 @@ resource "google_service_account_iam_binding" "cert_manager_wi" {
   ]
 }
 
+resource "kubernetes_secret" "dockerhub_secret_api_server" {
+  metadata {
+    name      = "dockerhub-secret"
+    namespace = "api-server"
+  }
 
+  type = "kubernetes.io/dockerconfigjson"
+
+  data = {
+    ".dockerconfigjson" = jsonencode({
+      auths = {
+        "https://index.docker.io/v1/" = {
+          "username" = var.dockerhub_username
+          "password" = var.dockerhub_password
+          "email"    = var.dockerhub_email
+          "auth"     = base64encode("${var.dockerhub_username}:${var.dockerhub_password}")
+        }
+      }
+    })
+  }
+
+  depends_on = [kubernetes_namespace.api_server]
+}
+
+resource "kubernetes_secret" "dockerhub_secret_operator_ns" {
+  metadata {
+    name      = "dockerhub-secret"
+    namespace = "operator-ns"
+  }
+
+  type = "kubernetes.io/dockerconfigjson"
+
+  data = {
+    ".dockerconfigjson" = jsonencode({
+      auths = {
+        "https://index.docker.io/v1/" = {
+          "username" = var.dockerhub_username
+          "password" = var.dockerhub_password
+          "email"    = var.dockerhub_email
+          "auth"     = base64encode("${var.dockerhub_username}:${var.dockerhub_password}")
+        }
+      }
+    })
+  }
+
+  depends_on = [kubernetes_namespace.operator_ns]
+}
