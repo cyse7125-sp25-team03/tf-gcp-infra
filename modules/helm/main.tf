@@ -215,11 +215,6 @@ resource "kubernetes_namespace" "ingress_nginx" {
   #   prevent_destroy = true
   # }
 }
-data "google_compute_address" "prod_api_static_ip" {
-  name = "prod-api-static-ip"
-}
-
-
 resource "helm_release" "nginx_ingress" {
   name       = "nginx-ingress"
   namespace  = "ingress-nginx"
@@ -228,7 +223,7 @@ resource "helm_release" "nginx_ingress" {
 
   set {
     name  = "controller.service.loadBalancerIP"
-    value = data.google_compute_address.prod_api_static_ip.address
+    value = var.api_server_ip
   }
   values = [file("${path.module}/../../values/ingress-values.yaml")]
   # Force helm to wait until all resources are deployed successfully
@@ -237,28 +232,6 @@ resource "helm_release" "nginx_ingress" {
   # lifecycle {
   #   prevent_destroy = true
   # }
-}
-
-
-resource "google_service_account" "cert_manager" {
-  account_id   = "cert-manager"
-  display_name = "cert-manager CloudDNS Service Account"
-}
-resource "google_project_iam_binding" "cert_manager_dns" {
-  project = var.project_id
-  role    = "roles/dns.admin"
-
-  members = [
-    "serviceAccount:${google_service_account.cert_manager.email}",
-  ]
-}
-resource "google_service_account_iam_binding" "cert_manager_wi" {
-  service_account_id = google_service_account.cert_manager.name
-  role               = "roles/iam.workloadIdentityUser"
-
-  members = [
-    "serviceAccount:${var.project_id}.svc.id.goog[cert-manager/cert-manager]"
-  ]
 }
 
 resource "kubernetes_secret" "dockerhub_secret_api_server" {

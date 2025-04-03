@@ -29,6 +29,3 @@ output "istiod_status" {
 output "istio_gateway_status" {
   value = helm_release.istio_gateway.status
 }
-output "prod_api_ip" {
-  value = data.google_compute_address.prod_api_static_ip.address
-}

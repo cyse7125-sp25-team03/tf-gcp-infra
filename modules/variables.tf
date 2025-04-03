@@ -110,3 +110,8 @@ variable "local_ip_s" {
   type        = string
   description = "Developer 2 IP Allocation list"
 }
+
+variable "api_server_ip" {
+  type = string
+  description = "API Server Static IP - output from DNS module"
+}
