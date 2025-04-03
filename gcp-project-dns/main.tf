@@ -85,31 +85,31 @@ resource "google_dns_record_set" "prd_ns" {
 }
 
 #api-server
-resource "google_compute_address" "dev_api_static_ip" {
-  provider = google.dev
-  name     = "dev-api-static-ip"
-  region   = var.region
+# resource "google_compute_address" "dev_api_static_ip" {
+#   provider = google.dev
+#   name     = "dev-api-static-ip"
+#   region   = var.region
 
-}
-resource "google_compute_address" "prod_api_static_ip" {
-  provider = google.prod
-  name     = "prod-api-static-ip"
-  region   = var.region
+# }
+# resource "google_compute_address" "prod_api_static_ip" {
+#   provider = google.prod
+#   name     = "prod-api-static-ip"
+#   region   = var.region
 
-}
-resource "google_dns_record_set" "dev_api_dns" {
-  provider     = google.dev
-  name         = var.dev_api_server_subdomain_name
-  managed_zone = google_dns_managed_zone.dev_gcp_csyeteam03_xyz.name
-  type         = "A"
-  ttl          = 300
-  rrdatas      = [google_compute_address.dev_api_static_ip.address]
-}
-resource "google_dns_record_set" "prod_api_dns" {
-  provider     = google.prod
-  name         = var.prod_api_server_subdomain_name
-  managed_zone = google_dns_managed_zone.prd_gcp_csyeteam03_xyz.name
-  type         = "A"
-  ttl          = 300
-  rrdatas      = [google_compute_address.prod_api_static_ip.address]
-}
+# }
+# resource "google_dns_record_set" "dev_api_dns" {
+#   provider     = google.dev
+#   name         = var.dev_api_server_subdomain_name
+#   managed_zone = google_dns_managed_zone.dev_gcp_csyeteam03_xyz.name
+#   type         = "A"
+#   ttl          = 300
+#   rrdatas      = [google_compute_address.dev_api_static_ip.address]
+# }
+# resource "google_dns_record_set" "prod_api_dns" {
+#   provider     = google.prod
+#   name         = var.prod_api_server_subdomain_name
+#   managed_zone = google_dns_managed_zone.prd_gcp_csyeteam03_xyz.name
+#   type         = "A"
+#   ttl          = 300
+#   rrdatas      = [google_compute_address.prod_api_static_ip.address]
+# }
