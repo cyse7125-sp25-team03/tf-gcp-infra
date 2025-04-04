@@ -11,7 +11,7 @@ module "vpc" {
   local_ip_s       = var.local_ip_s
 }
 module "gke" {
-  depends_on            = [module.vpc, module.kms]
+  depends_on            = [module.vpc, module.kms, module.iam, module.dns]
   source                = "../modules/gke"
   project_id            = var.project_id
   environment           = var.environment
@@ -87,6 +87,27 @@ module "helm" {
   dockerhub_username = var.dockerhub_username
   dockerhub_password = var.dockerhub_password
   dockerhub_email    = var.dockerhub_email
+  api_server_ip      = module.dns.api_server_ip
 
   depends_on = [module.gke, module.bastion]
+}
+
+module "iam" {
+  source = "../modules/iam"
+
+  project_id = var.project_id
+  region     = var.region
+}
+module "dns" {
+  source = "../modules/dns"
+
+  project_id  = var.project_id
+  region      = var.region
+  environment = var.environment
+
+
+}
+module "monitoring" {
+  source     = "../modules/monitoring"
+  depends_on = [module.gke, module.helm]
 }
