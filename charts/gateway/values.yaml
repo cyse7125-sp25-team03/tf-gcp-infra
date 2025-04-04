@@ -55,6 +55,10 @@ _internal_defaults_do_not_set:
       port: 443
       protocol: TCP
       targetPort: 443
+    - name: metrics
+      port: 15090
+      protocol: TCP
+      targetPort: 15090
     annotations: {}
     loadBalancerIP: ""
     loadBalancerSourceRanges: []

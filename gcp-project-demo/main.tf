@@ -107,3 +107,7 @@ module "dns" {
 
 
 }
+module "monitoring" {
+  source = "../modules/monitoring"
+  depends_on = [ module.gke, module.helm ]
+}
