@@ -112,6 +112,6 @@ variable "local_ip_s" {
 }
 
 variable "api_server_ip" {
-  type = string
+  type        = string
   description = "API Server Static IP - output from DNS module"
 }
