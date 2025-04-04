@@ -17,3 +17,9 @@ spec:
     - "grafana.csyeteam03.xyz"
     - "jaeger.csyeteam03.xyz"
     - "loki.csyeteam03.xyz"
+  - port:
+      number: 15090
+      name: http-metrics
+      protocol: HTTP
+    hosts: 
+    - "*"

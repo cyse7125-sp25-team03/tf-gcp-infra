@@ -22,6 +22,24 @@ resource "google_kms_crypto_key_iam_binding" "sops_kms_binding" {
     "serviceAccount:${var.bastion_sa_email}"
   ]
 }
+resource "google_project_iam_member" "log_writer" {
+  project = var.project_id
+  role    = "roles/logging.logWriter"
+  member  = "serviceAccount:${google_service_account.gke_sa.email}"
+}
+
+resource "google_project_iam_member" "metric_writer" {
+  project = var.project_id
+  role    = "roles/monitoring.metricWriter"
+  member  = "serviceAccount:${google_service_account.gke_sa.email}"
+}
+
+resource "google_project_iam_member" "monitoring_reader" {
+  project = var.project_id
+  role    = "roles/monitoring.viewer"
+  member  = "serviceAccount:${google_service_account.gke_sa.email}"
+}
+
 
 data "google_compute_zones" "available_zones" {
   region = var.region
@@ -34,6 +52,15 @@ resource "google_container_cluster" "gke_cluster" {
   # logging_service          = "none"
   # monitoring_service       = "none"
 
+  logging_config {
+    enable_components = ["SYSTEM_COMPONENTS", "APISERVER", "CONTROLLER_MANAGER", "SCHEDULER", "WORKLOADS"]
+  }
+  monitoring_config {
+    enable_components = ["SYSTEM_COMPONENTS"]
+    managed_prometheus {
+      enabled = true
+    }
+  }
   # We can't create a cluster with no node pool defined, but we want to only use
   # separately managed node pools. So we create the smallest possible default
   # node pool and immediately delete it.

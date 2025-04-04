@@ -1692,7 +1692,7 @@ psp:
 metrics:
   ## @param metrics.enabled Start a prometheus exporter
   ##
-  enabled: false
+  enabled: true
   ## @param metrics.image.registry [default: REGISTRY_NAME] PostgreSQL Prometheus Exporter image registry
   ## @param metrics.image.repository [default: REPOSITORY_NAME/postgres-exporter] PostgreSQL Prometheus Exporter image repository
   ## @skip metrics.image.tag PostgreSQL Prometheus Exporter image tag (immutable tags are recommended)
@@ -1717,9 +1717,9 @@ metrics:
   ## @param metrics.collectors Control enabled collectors
   ## ref: https://github.com/prometheus-community/postgres_exporter#flags
   ## Example:
-  ## collectors:
-  ##   wal: false
-  collectors: {}
+  collectors:
+    wal: false
+  #collectors: {}
   ## @param metrics.customMetrics Define additional custom metrics
   ## ref: https://github.com/prometheus-community/postgres_exporter#adding-new-metrics-via-a-config-file-deprecated
   ## customMetrics:
