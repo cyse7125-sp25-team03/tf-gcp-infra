@@ -74,6 +74,8 @@ module "secrets" {
   region            = var.region
   postgres_username = var.postgres_username
   postgres_password = var.postgres_password
+  kafka_username    = var.kafka_username
+  kafka_password    = var.kafka_password
 
   depends_on = [module.gke, module.bastion]
 }
