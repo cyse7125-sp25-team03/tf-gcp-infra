@@ -234,6 +234,40 @@ resource "helm_release" "nginx_ingress" {
   # }
 }
 
+# Create namespace for Kafka
+resource "kubernetes_namespace" "kafka" {
+  metadata {
+    name = "kafka"
+    labels = {
+      istio-injection = "enabled"
+    }
+  }
+
+  depends_on = [null_resource.get_credentials]
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
+}
+
+# Install Bitnami Kafka chart
+resource "helm_release" "kafka" {
+  name      = "kafka"
+  chart     = "${path.module}/../../charts/kafka"
+  namespace = "kafka"
+
+  # Use custom values file for Kafka configuration
+  values = [file("${path.module}/../../values/kafka-values.yaml")]
+
+  depends_on = [kubernetes_namespace.kafka]
+
+  # Force helm to wait until all resources are deployed successfully
+  wait    = true
+  timeout = 300
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
+}
+
 resource "kubernetes_secret" "dockerhub_secret_api_server" {
   metadata {
     name      = "dockerhub-secret"

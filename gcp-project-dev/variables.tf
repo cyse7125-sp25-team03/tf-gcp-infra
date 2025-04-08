@@ -94,17 +94,14 @@ variable "compute_sa_email" {
 variable "key_ring_name" {
   type        = string
   description = "Key Ring Name"
-
 }
 variable "trace_bucket_name" {
   type        = string
   description = "Bucket Name"
-
 }
 variable "backups_bucket_name" {
   type        = string
   description = "Bucket Name"
-
 }
 variable "postgres_username" {
   type        = string
@@ -118,14 +115,20 @@ variable "dockerhub_username" {
   description = "DockerHub username"
   type        = string
 }
-
 variable "dockerhub_password" {
   description = "DockerHub password"
   type        = string
   sensitive   = true
 }
-
 variable "dockerhub_email" {
   description = "DockerHub email"
   type        = string
+}
+variable "kafka_username" {
+  type        = string
+  description = "Kafka Username"
+}
+variable "kafka_password" {
+  type        = string
+  description = "Kafka Password"
 }

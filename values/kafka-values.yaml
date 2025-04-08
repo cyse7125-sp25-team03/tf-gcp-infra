@@ -1,0 +1,42 @@
+global:
+  storageClass: "standard"
+
+# Cluster configuration
+controller:
+  replicaCount: 3
+  persistence:
+    enabled: true
+    size: 8Gi
+  resources:
+    requests:
+      memory: 512Mi
+      cpu: 500m
+    limits:
+      memory: 1024Mi
+      cpu: 1
+
+# Authentication configuration
+sasl:
+  client:
+    users:
+      - team03
+    passwords:
+      - password123
+  enabledMechanisms: PLAIN
+
+# Topic provisioning
+provisioning:
+  enabled: true
+  podAnnotations:
+    sidecar.istio.io/inject: "false"
+  topics:
+    - name: trace-survey-uploaded
+      partitions: 3
+      replicationFactor: 3
+      config:
+        retention.ms: "604800000" # 7 days retention
+    - name: trace-survey-processed
+      partitions: 3
+      replicationFactor: 3
+      config:
+        retention.ms: "604800000" # 7 days retention
