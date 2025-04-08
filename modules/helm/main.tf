@@ -254,7 +254,7 @@ resource "helm_release" "kafka" {
   name      = "kafka"
   chart     = "${path.module}/../../charts/kafka"
   namespace = "kafka"
-  
+
   # Use custom values file for Kafka configuration
   values = [file("${path.module}/../../values/kafka-values.yaml")]
 
