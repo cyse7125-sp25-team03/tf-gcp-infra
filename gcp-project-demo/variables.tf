@@ -83,6 +83,14 @@ variable "db_operator_ksa_name" {
   type        = string
   description = "DB Operator KSA Name"
 }
+variable "trace_processor_namespace" {
+  type        = string
+  description = "Trace Processor Namespace"
+}
+variable "trace_processor_ksa_name" {
+  type        = string
+  description = "Trace Processor KSA Name"
+}
 variable "rotation_period" {
   type        = string
   description = "Rotation Period for the KMS key"

@@ -36,6 +36,8 @@ module "gke" {
   api_server_ksa_name   = var.api_server_ksa_name
   db_operator_namespace = var.db_operator_namespace
   db_operator_ksa_name  = var.db_operator_ksa_name
+    trace_processor_namespace = var.trace_processor_namespace
+  trace_processor_ksa_name  = var.trace_processor_ksa_name
   cluster_name          = module.gke.cluster_name
 }
 
