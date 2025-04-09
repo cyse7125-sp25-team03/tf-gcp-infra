@@ -249,6 +249,21 @@ resource "kubernetes_namespace" "kafka" {
   # }
 }
 
+# Create namespace for Trace processor
+resource "kubernetes_namespace" "trace_processor" {
+  metadata {
+    name = "trace-processor"
+    labels = {
+      istio-injection = "enabled"
+    }
+  }
+
+  depends_on = [null_resource.get_credentials]
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
+}
+
 # Install Bitnami Kafka chart
 resource "helm_release" "kafka" {
   name      = "kafka"
@@ -314,4 +329,28 @@ resource "kubernetes_secret" "dockerhub_secret_operator_ns" {
   }
 
   depends_on = [kubernetes_namespace.operator_ns]
+}
+
+resource "kubernetes_secret" "dockerhub_secret_trace_processor" {
+  metadata {
+    name      = "dockerhub-secret"
+    namespace = "trace-processor"
+  }
+
+  type = "kubernetes.io/dockerconfigjson"
+
+  data = {
+    ".dockerconfigjson" = jsonencode({
+      auths = {
+        "https://index.docker.io/v1/" = {
+          "username" = var.dockerhub_username
+          "password" = var.dockerhub_password
+          "email"    = var.dockerhub_email
+          "auth"     = base64encode("${var.dockerhub_username}:${var.dockerhub_password}")
+        }
+      }
+    })
+  }
+
+  depends_on = [kubernetes_namespace.trace_processor]
 }
