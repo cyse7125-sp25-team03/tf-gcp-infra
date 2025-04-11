@@ -155,6 +155,10 @@ resource "google_service_account" "trace_processor_gsa" {
   account_id   = "trace-processor-gsa"
   display_name = "GSA for Trace Processor Workload Identity"
 }
+resource "google_service_account" "trace_consumer_gsa" {
+  account_id   = "trace-consumer-gsa"
+  display_name = "GSA for Trace Consumer Workload Identity"
+}
 
 #----Grant IAM Role to GSA----
 resource "google_project_iam_member" "cloudsql_client" {
@@ -199,6 +203,12 @@ resource "google_project_iam_member" "secrets_access_trace_processor" {
   member  = "serviceAccount:${google_service_account.trace_processor_gsa.email}"
 }
 
+resource "google_project_iam_member" "secrets_access_trace_consumer" {
+  project = var.project_id
+  role    = "roles/secretmanager.secretAccessor"
+  member  = "serviceAccount:${google_service_account.trace_consumer_gsa.email}"
+}
+
 #----Bind KSA to GSA----
 resource "google_service_account_iam_binding" "api_server_workload_identity_binding" {
   service_account_id = google_service_account.workload_identity_gsa.name
@@ -222,6 +232,14 @@ resource "google_service_account_iam_binding" "trace_processor_workload_identity
 
   members = [
     "serviceAccount:${var.project_id}.svc.id.goog[${var.trace_processor_namespace}/${var.trace_processor_ksa_name}]"
+  ]
+}
+resource "google_service_account_iam_binding" "trace_consumer_workload_identity_binding" {
+  service_account_id = google_service_account.trace_consumer_gsa.name
+  role               = "roles/iam.workloadIdentityUser"
+
+  members = [
+    "serviceAccount:${var.project_id}.svc.id.goog[${var.trace_consumer_namespace}/${var.trace_consumer_ksa_name}]"
   ]
 }
 

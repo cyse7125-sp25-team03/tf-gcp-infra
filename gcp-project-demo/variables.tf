@@ -91,6 +91,14 @@ variable "trace_processor_ksa_name" {
   type        = string
   description = "Trace Processor KSA Name"
 }
+variable "trace_consumer_namespace" {
+  type        = string
+  description = "Trace Consumer Namespace"
+}
+variable "trace_consumer_ksa_name" {
+  type        = string
+  description = "Trace Consumer KSA Name"
+}
 variable "rotation_period" {
   type        = string
   description = "Rotation Period for the KMS key"

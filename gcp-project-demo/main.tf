@@ -38,6 +38,8 @@ module "gke" {
   db_operator_ksa_name      = var.db_operator_ksa_name
   trace_processor_namespace = var.trace_processor_namespace
   trace_processor_ksa_name  = var.trace_processor_ksa_name
+  trace_consumer_namespace  = var.trace_consumer_namespace
+  trace_consumer_ksa_name   = var.trace_consumer_ksa_name
   cluster_name              = module.gke.cluster_name
 }
 
