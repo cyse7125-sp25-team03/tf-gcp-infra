@@ -9,11 +9,11 @@ controller:
     size: 8Gi
   resources:
     requests:
-      memory: 512Mi
       cpu: 500m
+      memory: 512Mi
     limits:
-      memory: 1024Mi
       cpu: 1
+      memory: 1024Mi
 
 # Authentication configuration
 sasl:
