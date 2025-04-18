@@ -14,7 +14,7 @@ resource "google_dns_record_set" "api_dns" {
   managed_zone = data.google_dns_managed_zone.selected_zone.name
   type         = "A"
   ttl          = 300
-  rrdatas      = [google_compute_address.server_static_ip.address]
+  rrdatas      = [google_compute_address.api_static_ip.address]
 }
 
 resource "google_dns_record_set" "trace_llm_dns" {
@@ -22,6 +22,6 @@ resource "google_dns_record_set" "trace_llm_dns" {
   managed_zone = data.google_dns_managed_zone.selected_zone.name
   type         = "A"
   ttl          = 300
-  rrdatas      = [google_compute_address.server_static_ip.address]
+  rrdatas      = [google_compute_address.api_static_ip.address]
 }
 
