@@ -159,6 +159,14 @@ resource "google_service_account" "trace_consumer_gsa" {
   account_id   = "trace-consumer-gsa"
   display_name = "GSA for Trace Consumer Workload Identity"
 }
+resource "google_service_account" "embedding_service_gsa" {
+  account_id   = "embedding-service-gsa"
+  display_name = "GSA for Trace Embedding Service Workload Identity"
+}
+resource "google_service_account" "trace_llm_gsa" {
+  account_id   = "trace-llm-gsa"
+  display_name = "GSA for Trace LLM Workload Identity"
+}
 
 #----Grant IAM Role to GSA----
 resource "google_project_iam_member" "cloudsql_client" {
@@ -209,6 +217,18 @@ resource "google_project_iam_member" "secrets_access_trace_consumer" {
   member  = "serviceAccount:${google_service_account.trace_consumer_gsa.email}"
 }
 
+resource "google_project_iam_member" "secrets_access_embedding_service" {
+  project = var.project_id
+  role    = "roles/secretmanager.secretAccessor"
+  member  = "serviceAccount:${google_service_account.embedding_service_gsa.email}"
+}
+
+resource "google_project_iam_member" "secrets_access_trace_llm" {
+  project = var.project_id
+  role    = "roles/secretmanager.secretAccessor"
+  member  = "serviceAccount:${google_service_account.trace_llm_gsa.email}"
+}
+
 #----Bind KSA to GSA----
 resource "google_service_account_iam_binding" "api_server_workload_identity_binding" {
   service_account_id = google_service_account.workload_identity_gsa.name
@@ -240,6 +260,22 @@ resource "google_service_account_iam_binding" "trace_consumer_workload_identity_
 
   members = [
     "serviceAccount:${var.project_id}.svc.id.goog[${var.trace_consumer_namespace}/${var.trace_consumer_ksa_name}]"
+  ]
+}
+resource "google_service_account_iam_binding" "embedding_service_workload_identity_binding" {
+  service_account_id = google_service_account.embedding_service_gsa.name
+  role               = "roles/iam.workloadIdentityUser"
+
+  members = [
+    "serviceAccount:${var.project_id}.svc.id.goog[${var.embedding_service_namespace}/${var.embedding_service_ksa_name}]"
+  ]
+}
+resource "google_service_account_iam_binding" "trace_llm_workload_identity_binding" {
+  service_account_id = google_service_account.trace_llm_gsa.name
+  role               = "roles/iam.workloadIdentityUser"
+
+  members = [
+    "serviceAccount:${var.project_id}.svc.id.goog[${var.trace_llm_namespace}/${var.trace_llm_ksa_name}]"
   ]
 }
 

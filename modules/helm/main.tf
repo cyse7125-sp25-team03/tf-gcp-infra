@@ -279,6 +279,20 @@ resource "kubernetes_namespace" "trace_consumer" {
   # }
 }
 
+resource "kubernetes_namespace" "trace_llm" {
+  metadata {
+    name = "trace-llm"
+    labels = {
+      istio-injection = "enabled"
+    }
+  }
+
+  depends_on = [null_resource.get_credentials]
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
+}
+
 # Install Bitnami Kafka chart
 resource "helm_release" "kafka" {
   name      = "kafka"
@@ -296,6 +310,30 @@ resource "helm_release" "kafka" {
   # lifecycle {
   #   prevent_destroy = true
   # }
+}
+
+resource "kubernetes_secret" "dockerhub_secret_postgres" {
+  metadata {
+    name      = "dockerhub-secret"
+    namespace = "postgres"
+  }
+
+  type = "kubernetes.io/dockerconfigjson"
+
+  data = {
+    ".dockerconfigjson" = jsonencode({
+      auths = {
+        "https://index.docker.io/v1/" = {
+          "username" = var.dockerhub_username
+          "password" = var.dockerhub_password
+          "email"    = var.dockerhub_email
+          "auth"     = base64encode("${var.dockerhub_username}:${var.dockerhub_password}")
+        }
+      }
+    })
+  }
+
+  depends_on = [kubernetes_namespace.postgres]
 }
 
 resource "kubernetes_secret" "dockerhub_secret_api_server" {
@@ -392,4 +430,28 @@ resource "kubernetes_secret" "dockerhub_secret_trace_consumer" {
   }
 
   depends_on = [kubernetes_namespace.trace_consumer]
+}
+
+resource "kubernetes_secret" "dockerhub_secret_trace_llm" {
+  metadata {
+    name      = "dockerhub-secret"
+    namespace = "trace-llm"
+  }
+
+  type = "kubernetes.io/dockerconfigjson"
+
+  data = {
+    ".dockerconfigjson" = jsonencode({
+      auths = {
+        "https://index.docker.io/v1/" = {
+          "username" = var.dockerhub_username
+          "password" = var.dockerhub_password
+          "email"    = var.dockerhub_email
+          "auth"     = base64encode("${var.dockerhub_username}:${var.dockerhub_password}")
+        }
+      }
+    })
+  }
+
+  depends_on = [kubernetes_namespace.trace_llm]
 }

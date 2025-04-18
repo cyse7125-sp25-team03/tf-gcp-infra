@@ -99,6 +99,22 @@ variable "trace_consumer_ksa_name" {
   type        = string
   description = "Trace Consumer KSA Name"
 }
+variable "embedding_service_namespace" {
+  type        = string
+  description = "Embedding Service Namespace"
+}
+variable "embedding_service_ksa_name" {
+  type        = string
+  description = "Embedding Service KSA Name"
+}
+variable "trace_llm_namespace" {
+  type        = string
+  description = "Trace LLM Namespace"
+}
+variable "trace_llm_ksa_name" {
+  type        = string
+  description = "Trace LLM KSA Name"
+}
 variable "rotation_period" {
   type        = string
   description = "Rotation Period for the KMS key"
@@ -147,4 +163,8 @@ variable "kafka_username" {
 variable "kafka_password" {
   type        = string
   description = "Kafka Password"
+}
+variable "gemini_api_key" {
+  type        = string
+  description = "Gemini API Key"
 }

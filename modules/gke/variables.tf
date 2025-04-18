@@ -21,6 +21,10 @@ variable "trace_processor_namespace" {}
 variable "trace_processor_ksa_name" {}
 variable "trace_consumer_namespace" {}
 variable "trace_consumer_ksa_name" {}
+variable "embedding_service_namespace" {}
+variable "embedding_service_ksa_name" {}
+variable "trace_llm_namespace" {}
+variable "trace_llm_ksa_name" {}
 variable "gke_crypto_key_id" {}
 variable "sops_crypto_key_id" {}
 variable "compute_sa_email" {}
