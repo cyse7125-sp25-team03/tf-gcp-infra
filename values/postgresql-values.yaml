@@ -23,7 +23,7 @@ global:
   ##
   security:
     ## @param global.security.allowInsecureImages Allows skipping image verification
-    allowInsecureImages: false
+    allowInsecureImages: true
   postgresql:
     ## @param global.postgresql.auth.postgresPassword Password for the "postgres" admin user (overrides `auth.postgresPassword`)
     ## @param global.postgresql.auth.username Name for a custom user to create (overrides `auth.username`)
@@ -36,8 +36,8 @@ global:
     ##
     auth:
       postgresPassword: "password1234"
-      username: "team03"
-      password: "password123"
+      username: ""
+      password: ""
       database: ""
       existingSecret: ""
       secretKeys:
@@ -117,8 +117,8 @@ diagnosticMode:
 ##
 image:
   registry: docker.io
-  repository: bitnami/postgresql
-  tag: 17.4.0-debian-12-r4
+  repository: roarceus/postgresql-pgvector
+  tag: 1.0.0
   digest: ""
   ## Specify a imagePullPolicy
   ## ref: https://kubernetes.io/docs/concepts/containers/images/#pre-pulled-images
@@ -353,11 +353,24 @@ primary:
     ##      #!/bin/sh
     ##      echo "Do something."
     ##
-    scripts: {
-      create_databases.sql:
-      CREATE DATABASE trace;
-      CREATE DATABASE api;
-    }
+    scripts:
+      00-create-user.sql: |
+        DO $$
+        BEGIN
+          IF NOT EXISTS (
+            SELECT FROM pg_catalog.pg_roles WHERE rolname = 'team03'
+          ) THEN
+            CREATE ROLE team03 WITH LOGIN PASSWORD 'password123' SUPERUSER;
+          ELSE
+            ALTER ROLE team03 WITH SUPERUSER;
+          END IF;
+        END
+        $$;
+
+      01-create_databases.sql: |
+        CREATE DATABASE trace OWNER team03;
+        CREATE DATABASE api OWNER team03;
+
     ## @param primary.initdb.scriptsConfigMap ConfigMap with scripts to be run at first boot
     ## NOTE: This will override `primary.initdb.scripts`
     ##
