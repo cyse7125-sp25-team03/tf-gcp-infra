@@ -5,3 +5,11 @@ global:
 serviceAccount:
   annotations:
     iam.gke.io/gcp-service-account: cert-manager@csye7125-demo-project.iam.gserviceaccount.com
+
+resources:
+  requests:
+    cpu: 10m
+    memory: 32Mi
+  limits:
+    cpu: 100m
+    memory: 64Mi

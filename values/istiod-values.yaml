@@ -33,11 +33,11 @@ pilot:
   # Resources for istiod
   resources:
     requests:
+      cpu: 250m
+      memory: 1Gi
+    limits:
       cpu: 500m
       memory: 2Gi
-    limits:
-      cpu: 1000m
-      memory: 4Gi
   
   # Enable health checks
   keepaliveMaxServerConnectionAge: 30m
