@@ -142,6 +142,48 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
   }
 }
 
+# Add a new node pool with n2-standard-4
+resource "google_container_node_pool" "high_performance_nodes" {
+  name           = "high-perf-node-pool-${var.environment}"
+  location       = var.region
+  node_locations = [data.google_compute_zones.available_zones.names[2]] # Use just the 3rd zone
+  cluster        = google_container_cluster.gke_cluster.name
+  node_count     = 1 # 1 node in this zone
+  version        = var.node_version
+
+  node_config {
+    preemptible       = true
+    machine_type      = "n2-standard-4" # Higher performance machine
+    image_type        = "COS_CONTAINERD"
+    disk_size_gb      = 50
+    disk_type         = "pd-standard" # Consider using SSD for better performance
+    service_account   = google_service_account.gke_sa.email
+    boot_disk_kms_key = var.gke_crypto_key_id
+
+    workload_metadata_config {
+      mode = "GKE_METADATA"
+    }
+
+    oauth_scopes = [
+      "https://www.googleapis.com/auth/logging.write",
+      "https://www.googleapis.com/auth/monitoring",
+      "https://www.googleapis.com/auth/cloud-platform"
+    ]
+
+    # Optional: Add labels or taints to ensure your RAG workloads run on this node
+    labels = {
+      "node-type" = "high-performance"
+    }
+
+    # If you want to ensure only your RAG workloads run on this node:
+    taint {
+      key    = "dedicated"
+      value  = "rag"
+      effect = "NO_SCHEDULE"
+    }
+  }
+}
+
 #----Google Service Account----
 resource "google_service_account" "workload_identity_gsa" {
   account_id   = "api-server-gsa"
