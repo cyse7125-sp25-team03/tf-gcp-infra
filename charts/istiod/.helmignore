@@ -25,5 +25,5 @@ img/
 CHANGELOG.md
 templates/grafana.yaml
 templates/loki.yaml
-templates/prometheus.yaml
-templates/kiali.yaml
+# templates/prometheus.yaml
+# templates/kiali.yaml
